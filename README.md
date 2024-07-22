@@ -14,3 +14,7 @@ The panel displays:
 - An indicator of power currently being used or returned to the grid\*
 
 \* These indicators only give an approximation of power being used/produced and do not show a numerical value.
+
+## Build Instructions
+
+See [Instructions.md](./INSTRUCTIONS.md)
