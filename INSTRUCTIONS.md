@@ -2,6 +2,8 @@
 
 Below are the instructions for building your own energy panel. Note that these are intended as a guide only. You can and it is recommended to customise the build to your own preferences.
 
+> :warning: The steps in these instructions may require you to wire components to mains electricity, or soldering of components to USB DC volatage. Performing steps incorrectly can result in short circuits, and fire. You should only continue if you are proficient in electronics. If you choose to continue, do so at your own risk.
+
 ## Materials
 
 The physical components of the build are as follows:
