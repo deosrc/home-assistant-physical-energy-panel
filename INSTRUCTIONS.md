@@ -38,7 +38,7 @@ I recommend designing your layout first. Remember to plan for where your circuit
 
 > **TODO: Add images and doc link above**
 
-Once you have a design, you can make cutouts in the wood for your various display components. I opted to 3D print some shrouds for around the displays to hide the edges of the cutouts. If you cut the edges neatly, this can be skipped.
+Once you have a design, you can make cutouts in the wood for your various display components. I opted to 3D print some shrouds for around the displays to hide the edges of the cutouts. If you cut the edges neatly and accurately, this can be skipped.
 
 > **TODO: Add images and link to 3D print files**
 
@@ -48,7 +48,27 @@ You may wish to use the perspex sheet provided with the picture frame to improve
 
 ### Home Assistant
 
-> **TODO**
+Home Assistant does not provide sensors for the components of the energy dashboard by default, but they can be added. You will need to create or have available entities for the following. Make a note of the entitiy IDs for:
+
+- Grid Energy Used Today
+- Grid Energy Returned Today
+- Solar Energy Produced Today
+- Home Energy Used Today
+- Current Solar Power Generation
+- Current Grid Power Usage (Negative value should indicate return to grid)
+
+For real-time and cumulative grid energy usage/return, I use a [Shelly EM](https://shellystore.co.uk/product/shelly-em-120a/). **WARNING: This device must be wired to mains electricity.**
+
+If the "Today" entities do not exist, you may be able to create them as "Utility Meter" helpers.
+
+[![Open your Home Assistant instance and show your helper entities.](https://my.home-assistant.io/badges/helpers.svg)](https://my.home-assistant.io/redirect/helpers/)
+
+For the Home Energy Used Today, if you have values for solar produced and grid used/return, a template sensor can be created using the following simple formula:
+
+```text
+<energy used by home> = (<solar produced> + <grid used>) - <grid returned>
+```
+
 
 ### ESPHome
 
