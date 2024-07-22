@@ -19,3 +19,23 @@ The following electrical components are used:
 - 10 LED Bar Display (x2)
 
 Additionally, there are some 3D printed parts for mounting and to neaten the display.
+
+## Physical Build
+
+### Circuit Board
+
+> **TODO**
+
+### Display
+
+> **TODO**
+
+## Software
+
+### Home Assistant
+
+> **TODO**
+
+### ESPHome
+
+> **TODO**
