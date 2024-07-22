@@ -1,0 +1,152 @@
+# Components for energy today
+substitutions:
+  pin_solar_clk: GPIO27
+  pin_solar_dio: GPIO14
+  pin_grid_used_dio: GPIO33
+  pin_grid_used_clk: GPIO32
+  pin_grid_returned_clk: GPIO25
+  pin_grid_returned_dio: GPIO26
+  pin_home_clk: GPIO16
+  pin_home_dio: GPIO04
+
+  home_assistant_entity_solar_produced_today: sensor.solar_produced_today
+  home_assistant_entity_grid_used_today: sensor.grid_energy_used_today
+  home_assistant_entity_grid_returned_today: sensor.grid_energy_returned_today
+  home_assistant_entity_home_energy_used_today: sensor.home_energy_used_today
+
+sensor:
+  - platform: homeassistant
+    id: solar_produced_today
+    entity_id: $home_assistant_entity_solar_produced_today
+    on_value:
+      then:
+        - script.execute: update_status
+  - platform: homeassistant
+    id: grid_used_today
+    entity_id: $home_assistant_entity_grid_used_today
+    on_value:
+      then:
+        - script.execute: update_status
+  - platform: homeassistant
+    id: grid_returned_today
+    entity_id: $home_assistant_entity_grid_returned_today
+    on_value:
+      then:
+        - script.execute: update_status
+  - platform: homeassistant
+    id: home_energy_used_today
+    entity_id: $home_assistant_entity_home_energy_used_today
+    on_value:
+      then:
+        - script.execute: update_status
+
+display:
+  - platform: tm1637
+    id: display_solar_produced_today
+    clk_pin: $pin_solar_clk
+    dio_pin: $pin_solar_dio
+    length: 4
+    inverted: true
+    update_interval: 60s
+    lambda: |-
+      if (!id(display_on).state)
+      {
+        it.print("");
+        return;
+      }
+
+      auto rawValue = id(solar_produced_today).state;
+      ESP_LOGI("SolarDisplay", "Sensor value: %f", rawValue);
+
+      if (isnan(rawValue))
+      {
+        it.print("----");
+        return;
+      }
+
+      int value = (int)(rawValue * 10.0);
+      it.printf("% 4i", value);
+  - platform: tm1637
+    id: display_grid_used_today
+    clk_pin: $pin_grid_used_clk
+    dio_pin: $pin_grid_used_dio
+    length: 4
+    update_interval: 60s
+    lambda: |-
+      if (!id(display_on).state)
+      {
+        it.print("");
+        return;
+      }
+
+      auto rawValue = id(grid_used_today).state;
+      ESP_LOGI("GridUsedDisplay", "Sensor value: %f", rawValue);
+
+      if (isnan(rawValue))
+      {
+        it.print("----");
+        return;
+      }
+
+      int value = (int)(rawValue * 10.0);
+      it.printf("% 4i", value);
+  - platform: tm1637
+    id: display_grid_returned_today
+    clk_pin: $pin_grid_returned_clk
+    dio_pin: $pin_grid_returned_dio
+    length: 4
+    update_interval: 60s
+    lambda: |-
+      if (!id(display_on).state)
+      {
+        it.print("");
+        return;
+      }
+
+      auto rawValue = id(grid_returned_today).state;
+      ESP_LOGI("GridReturnedDisplay", "Sensor value: %f", rawValue);
+
+      if (isnan(rawValue))
+      {
+        it.print("----");
+        return;
+      }
+
+      int value = (int)(rawValue * 10.0);
+      it.printf("% 4i", value);
+  - platform: tm1637
+    id: display_home_energy_used_today
+    clk_pin: $pin_home_clk
+    dio_pin: $pin_home_dio
+    length: 4
+    inverted: true
+    update_interval: 60s
+    lambda: |-
+      if (!id(display_on).state)
+      {
+        it.print("");
+        return;
+      }
+
+      auto rawValue = id(home_energy_used_today).state;
+      ESP_LOGI("HomeUsedDisplay", "Sensor value: %f", rawValue);
+
+      if (isnan(rawValue))
+      {
+        it.print("----");
+        return;
+      }
+
+      int value = (int)(rawValue * 10.0);
+      it.printf("% 4i", value);
+
+script:
+  - id: update_energy_today
+    then:
+      - logger.log:
+          level: info
+          format: Updating energy today state
+      - component.update: display_solar_produced_today
+      - component.update: display_grid_used_today
+      - component.update: display_grid_returned_today
+      - component.update: display_home_energy_used_today
