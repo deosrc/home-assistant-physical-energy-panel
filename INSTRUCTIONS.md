@@ -14,11 +14,20 @@ The physical components of the build are as follows:
 
 The following electrical components are used:
 
-- Double width solderboard
-- Az-Delivery ESP32 Dev Board
-- PIR Sensor
-- 7-Segment Clock Display (x4)
-- 10 LED Bar Display (x2)
+- [Double column prototype board](https://www.amazon.co.uk/gp/product/B07YSCGBL7)
+- [AZ-Delivery ESP32 Dev Board](https://www.amazon.co.uk/AZDelivery-NodeMcu-CP2102-Development-including/dp/B071P98VTG)
+  - [3 pack available](https://www.amazon.co.uk/AZDelivery-NodeMcu-CP2102-Development-including/dp/B074RGW2VQ) if you have multiple projects in mind
+- [PIR Sensor](https://thepihut.com/products/breadboard-friendly-mini-pir-motion-sensor-with-3-pin-header)
+- [4-Digit Display](https://thepihut.com/products/grove-4-digit-display) (x4)
+- [10 LED Bar Display](https://thepihut.com/products/grove-led-bar-v2-0) (x2)
+- [6 female grove headers](https://thepihut.com/products/grove-female-header-dip-4p-2-0mm-10-pack)\*
+- [PCB Header strips](https://www.amazon.co.uk/gp/product/B07Q1XBGFB):
+  - 19 pin female "DuPont" connector (x2)\*\*
+  - 3 pin femail "DuPont" connector\*\*
+
+\* The pins on the grove connector are not spaced wide enough for the prototype board, but can be "coerced" into fitting.
+
+\*\* Due to availability, I used 20 pin and 4 pin connectors.
 
 Additionally, there are some 3D printed parts for mounting and to neaten the display.
 
@@ -26,9 +35,7 @@ Additionally, there are some 3D printed parts for mounting and to neaten the dis
 
 ### Circuit Board
 
-The LED displays I used were chosen due to them having backpacks for easier wiring and control.
-
-Each 7-Segment or LED bar display has 4 wires:
+The LED displays I used were chosen due to them having backpacks for easier wiring and control. Each 7-Segment or LED bar display has 4 wires:
 
 - 3.3V (VCC)
 - Ground (GND)
@@ -37,7 +44,9 @@ Each 7-Segment or LED bar display has 4 wires:
 
 > **TODO: Add example images**
 
-> :warning: Always check the pins as the LED Bar and 7-Segment displays I used change the ordering of the pins.
+> :warning: Always check the pins as the LED Bar and 7-Segment displays I used have different ordering of the pins.
+
+If you are using grove headers, you may find they do not have the correct spacing to fit into the prototype board. **With a cable connected to the female ports**, the pins can be bent slightly to allow them to be inserted, and then soldered to the board. Always have a cable connected when banding the pins so that the connector end of the pins remain in position while being bent.
 
 The only component which differs is the PIR sensor which does not have a clock. **IMPORTANT: The PIR sensor linked above does not label the pins. Be sure to check the datasheet if you are unsure.**
 
