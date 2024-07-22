@@ -26,7 +26,30 @@ Additionally, there are some 3D printed parts for mounting and to neaten the dis
 
 ### Circuit Board
 
-> **TODO**
+The LED displays I used were chosen due to them having backpacks for easier wiring and control.
+
+Each 7-Segment or LED bar display has 4 wires:
+
+- 3.3V (VCC)
+- Ground (GND)
+- Data (DIO)
+- Clock (CLK)
+
+> **TODO: Add example images**
+
+> :warning: Always check the pins as the LED Bar and 7-Segment displays I used change the ordering of the pins.
+
+The only component which differs is the PIR sensor which does not have a clock. **IMPORTANT: The PIR sensor linked above does not label the pins. Be sure to check the datasheet if you are unsure.**
+
+The circuit board is quite straightforward:
+
+- The 3.3V pin on the ESP32 connects to the positive rail
+- The GND pin on the ESP32 connects to the negative rail
+- All VCC pins connect to the positive rail
+- All GND pins connect to the negative rail
+- The remaining pins should all be clock or data pins. They each connect to a GPIO pin on the ESP32. Try to avoid strapping pins where possible.
+
+> **TODO: Add image and diagram **
 
 ### Display
 
@@ -68,7 +91,6 @@ For the Home Energy Used Today, if you have values for solar produced and grid u
 ```text
 <energy used by home> = (<solar produced> + <grid used>) - <grid returned>
 ```
-
 
 ### ESPHome
 
