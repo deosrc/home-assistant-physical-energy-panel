@@ -66,9 +66,11 @@ The display is built into an [IKEA SANNAHED Picture Frame](https://www.ikea.com/
 
 > **TODO: Add images**
 
-I recommend designing your layout first. Remember to plan for where your circuit board will be behind the frame, as you will likely be unable to use this space for any of the displays. The design I used is available at .....
+I recommend designing your layout first. I used LibreOffice Impress to create a rough guide to print out, setting the slide size to the inner frame size. Remember to plan for where your circuit board will be behind the frame, as you will likely be unable to use this space for any of the displays.
 
-> **TODO: Add images and doc link above**
+The design I used is available as <LayoutDesign.pptx>. The first slide is the layout, the second is the components moved to fit for printing onto photo paper.
+
+![Layout Design](./media/LayoutDesign.png)
 
 Once you have a design, you can make cutouts in the wood for your various display components. I opted to 3D print some shrouds for around the displays to hide the edges of the cutouts. If you cut the edges neatly and accurately, this can be skipped.
 
