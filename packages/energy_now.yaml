@@ -1,0 +1,156 @@
+# Components for real-time energy use
+substitutions:
+  pin_bar_solar_clk: GPIO18
+  pin_bar_solar_dio: GPIO19
+  pin_bar_grid_clk: GPIO22
+  pin_bar_grid_dio: GPIO23
+
+  home_assistant_entity_solar_producing_now: sensor.solar_inverter_output_power
+  home_assistant_entity_grid_usage_now: sensor.grid_power
+
+sensor:
+  - platform: homeassistant
+    id: solar_producing_now
+    entity_id: $home_assistant_entity_solar_producing_now
+    on_value:
+      then:
+        - script.execute: update_status
+  - platform: homeassistant
+    id: grid_usage_now
+    entity_id: $home_assistant_entity_grid_usage_now
+    on_value:
+      then:
+        - script.execute: update_status
+
+display:
+  - platform: groveledbar
+    id: display_solar_producing_now
+    clk_pin: $pin_bar_solar_clk
+    dio_pin: $pin_bar_solar_dio
+    update_interval: 0.05s
+    lambda: |-
+      if (id(display_on).state) {
+        it.set_on(true);
+      } else {
+        it.set_on(false);
+        return;
+      }
+
+      static int tick = 0;
+      static int current_led = 1; // Default to amber LED
+
+      int solar_producing = id(solar_producing_now).state;
+      if (solar_producing > 15000) {
+        // HA disconnected so show amber LED
+        current_led = 1;
+      } else if (solar_producing == 0) {
+        // No solar so show red LED
+        current_led = 0;
+      } else {
+        if (current_led < 2) {
+          // LED and tick counter need to be reset
+          current_led = 2;
+          tick = 0;
+        } else {
+          // Check if LED needs moving
+          int ticks_per_move = 20 - (solar_producing / 150);
+
+          ESP_LOGV("SolarBar", "Tick %i/%i (%i W)", tick, ticks_per_move, solar_producing);
+          if (tick >= ticks_per_move) {
+            ESP_LOGD("SolarBar", "Moving bar... (Tick %i/%i, %i W)", tick, ticks_per_move, solar_producing);
+            current_led++;
+            tick = 0;
+            if (current_led > 10) {
+              current_led = 2;
+            }
+          }
+        }
+
+        tick++;
+      }
+
+      // Set LEDs
+      for (int i = 0; i <= 9; i++)
+      {
+        it.set_led(i, i == current_led);
+      }
+
+  - platform: groveledbar
+    id: display_grid_now
+    clk_pin: $pin_bar_grid_clk
+    dio_pin: $pin_bar_grid_dio
+    update_interval: 0.05s
+    lambda: |-
+      if (id(display_on).state) {
+        it.set_on(true);
+      } else {
+        it.set_on(false);
+        return;
+      }
+
+      static int tick = 0;
+      static int current_led = 1; // Default to amber LED
+
+      int grid_usage = id(grid_usage_now).state;
+      if (grid_usage > 15000) {
+        // HA disconnected so show amber LED
+        current_led = 1;
+      } else if (grid_usage == 0) {
+        // No usage registered so probably down
+        current_led = 0;
+      } else {
+        // Check if returning to grid
+        bool reverse = false;
+        if (grid_usage < 0) {
+          reverse = true;
+          grid_usage = 0 - grid_usage;
+        }
+
+        if (current_led < 2) {
+          // LED and tick counter need to be reset
+          if (reverse) {
+            current_led = 9;
+          } else {
+            current_led = 2;
+          }
+          tick = 0;
+        } else {
+
+          // Check if LED needs moving
+          int ticks_per_move = 20 - (grid_usage / 150);
+
+          ESP_LOGV("GridBar", "Tick %i/%i (%i W)", tick, ticks_per_move, grid_usage);
+          if (tick >= ticks_per_move) {
+            ESP_LOGD("GridBar", "Moving bar... (Tick %i/%i, %i W)", tick, ticks_per_move, grid_usage);
+            if (reverse) {
+              current_led--;
+            } else {
+              current_led++;
+            }
+
+            tick = 0;
+            if (current_led > 10) {
+              current_led = 2;
+            } else if (current_led < 2) {
+              current_led = 9;
+            }
+          }
+        }
+
+        tick++;
+      }
+
+      // Set LEDs
+      for (int i = 0; i <= 9; i++)
+      {
+        it.set_led(i, i == current_led);
+      }
+
+script:
+  - id: update_energy_now
+    then:
+      - logger.log:
+          level: info
+          format: Updating energy now state
+      - component.update: display_solar_producing_now
+      - component.update: display_grid_now

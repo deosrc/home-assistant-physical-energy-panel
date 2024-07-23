@@ -1,0 +1,62 @@
+# Components for managing the display on/off status
+substitutions:
+  pin_pir: GPIO35
+
+switch:
+  # Controls
+  - platform: template
+    id: display_on
+    name: Display
+    optimistic: true
+    restore_mode: ALWAYS_ON
+    on_turn_on:
+      - script.execute: update_status
+      - script.execute: auto_off
+    on_turn_off:
+      - script.execute: update_status
+  - platform: template
+    id: motion_control
+    name: Motion Control
+    entity_category: config
+    optimistic: true
+    restore_mode: ALWAYS_ON
+
+binary_sensor:
+  # PIR Sesnsor
+  - platform: gpio
+    pin:
+      number: $pin_pir
+      mode:
+        input: true
+    id: pir_sensor
+    name: Motion
+    device_class: motion
+    on_press:
+      then:
+        - if:
+            condition:
+              - switch.is_on: motion_control
+            then:
+              - switch.turn_on: display_on
+
+number:
+  - platform: template
+    id: auto_off_time
+    name: Auto-off Time
+    entity_category: config
+    optimistic: true
+    min_value: 5
+    max_value: 120
+    step: 5
+    initial_value: 30
+    restore_value: true
+
+script:
+  - id: auto_off
+    mode: restart
+    then:
+      - delay: !lambda return id(auto_off_time).state * 1000;
+      - logger.log:
+          level: info
+          format: "Turning display off due to inactivity"
+      - switch.turn_off: display_on

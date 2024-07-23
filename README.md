@@ -1,5 +1,7 @@
 # Energy Panel for Home Assistant
 
+> :warning: Work in progress and not yet ready for use :warning:
+
 This is a repository contains resources for building a physical energy usage panel, similar to the [Energy Distribution Card in Home Assistant](https://www.home-assistant.io/dashboards/energy/#energy-distribution).
 
 > **TODO: Insert image**
