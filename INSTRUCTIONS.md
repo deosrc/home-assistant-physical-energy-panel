@@ -72,7 +72,7 @@ I recommend designing your layout first. Remember to plan for where your circuit
 
 Once you have a design, you can make cutouts in the wood for your various display components. I opted to 3D print some shrouds for around the displays to hide the edges of the cutouts. If you cut the edges neatly and accurately, this can be skipped.
 
-> **TODO: Add images and link to 3D print files**
+See [3D Printing README](./3d_printing/README.md) for details.
 
 You may wish to use the perspex sheet provided with the picture frame to improve the finish of the panel. This may require a hole to be made for the PIR sensor to be mounted through. Be careful to avoid cracking the perspex when drilling the hole. It may be best to sandwich the perspex between 2 pieces of wood for drilling.
 
