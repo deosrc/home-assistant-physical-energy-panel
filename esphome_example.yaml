@@ -1,0 +1,37 @@
+esphome:
+  name: energy-display
+  friendly_name: Energy Display
+  on_boot:
+    then:
+      - script.execute: update_status
+      - script.execute: auto_off
+
+esp32:
+  board: az-delivery-devkit-v4
+
+external_components:
+  - source: github://deosrc/home-assistant-physical-energy-panel
+    components: [groveledbar]
+
+packages:
+  base: !include common/base.yaml # WiFi, OTA, logger, etc.
+  display_autooff: github://deosrc/home-assistant-physical-energy-panel/packages/display_auto_off.yaml
+  energy_today: github://deosrc/home-assistant-physical-energy-panel/packages/energy_today.yaml
+  energy_now: github://deosrc/home-assistant-physical-energy-panel/packages/energy_now.yaml
+
+api:
+  on_client_connected:
+    then:
+      - script.execute: update_status
+  on_client_disconnected:
+    then:
+      - script.execute: update_status
+
+script:
+  - id: update_status
+    then:
+      - logger.log:
+          level: info
+          format: Updating state
+      - script.execute: update_energy_today
+      - script.execute: update_energy_now

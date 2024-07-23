@@ -103,4 +103,20 @@ For the Home Energy Used Today, if you have values for solar produced and grid u
 
 ### ESPHome
 
-> **TODO**
+The ESPHome code uses a custom component for the LED bar as native suppport is not available.
+
+The code has been split into 3 packages:
+
+- **`display_auto_off`:** Provides various Home Assistant components for turning the display on and off, turning the display on when the PIR sensor detects motion, setting the time without motion until the display turns off, etc.
+- **`energy_today`:** Provides the components for the numeric displays showing energy values for today.
+- **`energy_now`:** Provides the components for real-time power flow indicators.
+
+In theory, you can omit the `energy_now` package if you don't have real-time sensors.
+
+In addition to these packages, you will need:
+
+- The API component
+- A script with ID `update_status`. This should execute the scripts `update_energy_today` and `update_energy_now` (if the package is included)
+- On boot, the `auto_off` and `update_status` scripts should be called.
+
+An example configuration is included in this repository.
