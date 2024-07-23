@@ -17,3 +17,16 @@ There are 2 stands, and 2 holes for standard motherboard standoffs. The model av
 > :warning: Be sure to mount the board the correct orientation so that the screws avoid any of the live circuits!
 
 The mounting plate can be glued to the back of the panel.
+
+## Display Component Shrouds/Bezels
+
+In order to neaten the interface between the display components and the mounting, I 3D printed some shrouds/bezels for the displays to be moiunted to. If the holes for the displays are cut neatly, this step may not be required.
+
+![Display Component Shrouds](./DisplayComponentShrouds.png)
+
+There are 3 shrouds:
+
+- **7SegmentClockShroud:** Mounting shroud for a single  7-Segment displays.
+- **Double7SegmentClockShroud:** As above but mounts 2 displays. In my design, this is used for grid energy as the displays are so close together that the single shrouds would overlap.
+- **LedBarShroud:** Mounting shroud for the 10 LED Bar displays.
+
