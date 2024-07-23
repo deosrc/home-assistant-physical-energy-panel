@@ -44,6 +44,8 @@ The LED displays I used were chosen due to them having backpacks for easier wiri
 
 > **TODO: Add example images**
 
+The 7-segment displays I used do not have decimal markers. I painted a decimal point onto the displays, and adjusted the code to always display figures to 1dp with the decimal point removed (x10).
+
 > :warning: Always check the pins as the LED Bar and 7-Segment displays I used have different ordering of the pins.
 
 If you are using grove headers, you may find they do not have the correct spacing to fit into the prototype board. **With a cable connected to the female ports**, the pins can be bent slightly to allow them to be inserted, and then soldered to the board. Always have a cable connected when banding the pins so that the connector end of the pins remain in position while being bent.
@@ -58,7 +60,7 @@ The circuit board is quite straightforward:
 - All GND pins connect to the negative rail
 - The remaining pins should all be clock or data pins. They each connect to a GPIO pin on the ESP32. Try to avoid strapping pins where possible.
 
-> **TODO: Add image and diagram **
+> **TODO: Add image and diagram**
 
 ### Display
 
