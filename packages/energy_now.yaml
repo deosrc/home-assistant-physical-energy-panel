@@ -60,7 +60,7 @@ display:
             ESP_LOGD("SolarBar", "Moving bar... (Tick %i/%i, %i W)", tick, ticks_per_move, solar_producing);
             current_led++;
             tick = 0;
-            if (current_led > 10) {
+            if (current_led > 9) {
               current_led = 2;
             }
           }
@@ -129,7 +129,7 @@ display:
             }
 
             tick = 0;
-            if (current_led > 10) {
+            if (current_led > 9) {
               current_led = 2;
             } else if (current_led < 2) {
               current_led = 9;
