@@ -41,11 +41,11 @@ display:
 
       int solar_producing = id(solar_producing_now).state;
       if (solar_producing > 15000) {
-        // HA disconnected so show amber LED
-        current_led = 1;
+        // HA disconnected turn off all LEDs
+        current_led = -1;
       } else if (solar_producing == 0) {
-        // No solar so show red LED
-        current_led = 0;
+        // No solar so show amber LED
+        current_led = 1;
       } else {
         if (current_led < 2) {
           // LED and tick counter need to be reset
@@ -93,11 +93,11 @@ display:
 
       int grid_usage = id(grid_usage_now).state;
       if (grid_usage > 15000) {
-        // HA disconnected so show amber LED
-        current_led = 1;
+        // HA disconnected so turn off all LEDs
+        current_led = -1;
       } else if (grid_usage == 0) {
-        // No usage registered so probably down
-        current_led = 0;
+        // Neither exporting or importing so show amber LED
+        current_led = 1;
       } else {
         // Check if returning to grid
         bool reverse = false;
